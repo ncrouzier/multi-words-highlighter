@@ -39,16 +39,17 @@ function keywordsHighlighter(options, remove) {
     occurrences++;
   }
 
-  function addHighlights(node, keywords, options) {
+  function addHighlights(node, keywords, options, colorArray) {
     let skip = 0;
-
+    // console.log(keywords);
     if (3 === node.nodeType) {
       for (let i = 0; i < keywords.length; i++) {
+        
         let keyword = keywords[i].toLowerCase();
         let pos = node.data.toLowerCase().indexOf(keyword);
 
         if (0 <= pos) {
-          let hexColor = getRandomColor();
+          let hexColor = colorArray[i];
           highlight(node, pos, keyword, options, hexColor);
           skip = 1;
         }
@@ -56,7 +57,7 @@ function keywordsHighlighter(options, remove) {
     }
     else if (1 === node.nodeType && !/(script|style|textarea)/i.test(node.tagName) && node.childNodes) {
       for (let i = 0; i < node.childNodes.length; i++) {
-        i += addHighlights(node.childNodes[i], keywords, options);
+        i += addHighlights(node.childNodes[i], keywords, options,colorArray);
       }
     }
 
@@ -70,10 +71,13 @@ function keywordsHighlighter(options, remove) {
   }
 
   let keywords = options.keywords.split(',');
-
   delete options.keywords;
-  addHighlights(document.body, keywords, options);
 
+  let colorArray = [];
+  for (let i = 0; i < keywords.length; i++) {
+    colorArray[i] = getRandomColor();
+  }
+  addHighlights(document.body, keywords, options, colorArray);
   browser.runtime.sendMessage({
     'message': 'showOccurrences',
     'occurrences': occurrences

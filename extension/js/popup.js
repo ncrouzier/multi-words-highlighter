@@ -7,8 +7,6 @@
  * Copyright (c) 2017, Iván Ruvalcaba <mario.i.ruvalcaba[at]gmail[dot]com>
  */
 
-/* global saveOptions, loadOptions */
-
 document.addEventListener('DOMContentLoaded', function() {
   loadOptions();
 

@@ -16,7 +16,6 @@ browser.runtime.onMessage.addListener(function(request, sender) {
       enableSearch = localStorage.getItem('enableSearch');
       enableSearch = 'true' === enableSearch || null === enableSearch;
     }
-     console.log(request.message, " enableSearch ", enableSearch); 
 
     // This message is recived from 'content.js' and 'popup.js'.
     if (enableSearch && 'getOptions' === request.message) {
