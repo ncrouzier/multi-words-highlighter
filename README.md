@@ -8,8 +8,8 @@ Highlights given keywords on any web page you visit.
 *Multi-Keywords Highlighter* is a browser extension for **Firefox** (*version 52.0 or higher*). It's intended to be assistive for searching for the interesting bits of a web page by defining a keyword list.
 
 ## Additonal Features
-These are the additional features for a litte more convience.
-- Random colors (each hightlights are random colors but with visibility)
+These are the additional features for a little more convenience.
+- Random colors (each lightweights are random colors but with visibility)
 - Enable and disable searching in the settings.
 
 ## Screen Cap

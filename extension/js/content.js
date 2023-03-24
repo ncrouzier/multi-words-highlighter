@@ -13,7 +13,6 @@
 
 function keywordsHighlighter(options, remove) {
   let occurrences = 0;
-
   function highlight(node, pos, keyword, options, hexColor) {
     let span = document.createElement('span');
 
@@ -86,11 +85,16 @@ function keywordsHighlighter(options, remove) {
 
 function removeHighlights(node) {
   let span;
-
   while ((span = node.querySelector('span.highlighted'))) {
-    span.outerHTML = span.innerHTML;
+    let parent = span.parentNode;
+    // Move all children of the root element to the parent
+    while (span.firstChild) {
+        parent.insertBefore(span.firstChild, span);
+    }
+    // Remove the root element
+    parent.removeChild(span);
+    // span.outerHTML = span.innerHTML;
   }
-
   occurrences = 0;
 }
 
