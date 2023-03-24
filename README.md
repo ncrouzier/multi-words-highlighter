@@ -1,4 +1,4 @@
-> This project has been migrated to **GitLab**: [https://gitlab.com/ivanruvalcaba/multi-keywords-highlighter](https://gitlab.com/ivanruvalcaba/multi-keywords-highlighter) _(#GithubExodus)_.
+> This project is a modification of the Multi-Keywords Highlighter extenstion to **GitLab**: [https://gitlab.com/ivanruvalcaba/multi-keywords-highlighter](https://gitlab.com/ivanruvalcaba/multi-keywords-highlighter) _(#GithubExodus)_.
 
 # Multi-Keywords Highlighter
 

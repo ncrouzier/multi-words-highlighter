@@ -14,12 +14,18 @@
 function keywordsHighlighter(options, remove) {
   let occurrences = 0;
 
-  function highlight(node, pos, keyword, options, style) {
+  function highlight(node, pos, keyword, options, hexColor) {
     let span = document.createElement('span');
 
-    span.className = 'highlighted' + ' ' + (options.subtleHighlighting ? 'subtle ' : '') + 'style-' + style;
-    span.style.color = options.foreground;
-    span.style.backgroundColor = options.background;
+    span.className = 'highlighted' + ' ' + (options.subtleHighlighting ? 'subtle ' : '');
+
+    // caluclate luminance of hexcolor
+    let red = parseInt(hexColor.substring(1, 3), 16);
+    let green = parseInt(hexColor.substring(3, 5), 16);
+    let blue = parseInt(hexColor.substring(5, 7), 16);
+    let luminance = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
+    span.style.color = luminance > 0.49 ?  "#000000" : "#ffffff"; // legibility fix
+    span.style.backgroundColor = hexColor;
 
     let highlighted = node.splitText(pos);
 
@@ -42,7 +48,8 @@ function keywordsHighlighter(options, remove) {
         let pos = node.data.toLowerCase().indexOf(keyword);
 
         if (0 <= pos) {
-          highlight(node, pos, keyword, options, String(i).slice(-1));
+          let hexColor = getRandomColor();
+          highlight(node, pos, keyword, options, hexColor);
           skip = 1;
         }
       }
@@ -56,15 +63,7 @@ function keywordsHighlighter(options, remove) {
     return skip;
   }
 
-  function removeHighlights(node) {
-    let span;
-
-    while ((span = node.querySelector('span.highlighted'))) {
-      span.outerHTML = span.innerHTML;
-    }
-
-    occurrences = 0;
-  }
+ 
 
   if (remove) {
     removeHighlights(document.body);
@@ -81,7 +80,26 @@ function keywordsHighlighter(options, remove) {
   });
 }
 
-browser.runtime.onMessage.addListener(function(request) {
+function removeHighlights(node) {
+  let span;
+
+  while ((span = node.querySelector('span.highlighted'))) {
+    span.outerHTML = span.innerHTML;
+  }
+
+  occurrences = 0;
+}
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF'.split('');
+  var color = '#';
+  for (var i = 0; i < 6; i++ ) {
+      color += letters[Math.round(Math.random() * 15)];
+  }
+  return color;
+}
+
+browser.runtime.onMessage.addListener(function(request) { 
   if ('returnOptions' === request.message) {
     if ('undefined' != typeof request.keywords && request.keywords) {
       keywordsHighlighter({
@@ -91,10 +109,18 @@ browser.runtime.onMessage.addListener(function(request) {
       request.remove
       );
     }
+  }else if ('cleanHighlights' === request.message) {
+    removeHighlights(document.body);
+    browser.runtime.sendMessage({
+      'message': 'showOccurrences',
+      'occurrences': 0
+    });
   }
 });
 
+
 browser.runtime.sendMessage({
   'message': 'getOptions',
-  'remove': false
+  'fromSaveButton': false,
+  'remove': true
 });

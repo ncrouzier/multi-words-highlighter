@@ -22,7 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     browser.runtime.sendMessage({
       'message': 'getOptions',
+      'fromSaveButton' : true,
       'remove': true
     });
+    
   });
 });
+

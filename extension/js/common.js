@@ -9,7 +9,12 @@
 
 function loadOptions() {  // eslint-disable-line no-unused-vars
   if ('undefined' !== typeof localStorage) {
+    // console.log("loadOptions");
     document.getElementById('textareaKeywords').value = localStorage.getItem('keywords');
+
+    let enableSearch = localStorage.getItem('enableSearch');
+    enableSearch = 'true' === enableSearch && null !== enableSearch;
+    document.getElementById('checkboxEnableSearch').checked = enableSearch;
 
     let showOccurrences = localStorage.getItem('showOccurrences');
     showOccurrences = 'true' === showOccurrences || null === showOccurrences;
@@ -18,12 +23,17 @@ function loadOptions() {  // eslint-disable-line no-unused-vars
     let subtleHighlighting = localStorage.getItem('subtleHighlighting');
     subtleHighlighting = 'true' === subtleHighlighting && null !== subtleHighlighting;
     document.getElementById('checkboxSubtleHighlighting').checked = subtleHighlighting;
+    
+
+
   }
 }
 
 function saveOptions() {  // eslint-disable-line no-unused-vars
+  // console.log("savingOptions");
   if ('undefined' !== typeof localStorage) {
     localStorage.setItem('keywords', document.getElementById('textareaKeywords').value);
+    localStorage.setItem('enableSearch', document.getElementById('checkboxEnableSearch').checked);
     localStorage.setItem('showOccurrences', document.getElementById('checkboxShowOccurrences').checked);
     localStorage.setItem('subtleHighlighting', document.getElementById('checkboxSubtleHighlighting').checked);
   }

@@ -1,11 +1,11 @@
 {
 	"applications": {
 		"gecko": {
-			"id": "{356ecbb5-8ec8-48b0-a835-8eb8288e3288}",
+			"id": "achille.talon@gmail.com",
 			"strict_min_version": "52.0"
 		}
 	},
-	"author": "Iván Ruvalcaba",
+	"author": "Nicolas Crouzier",
 	"background": {
 		"scripts": [
 			"js/background.js"
@@ -13,9 +13,9 @@
 	},
 	"browser_action": {
 		"browser_style": true,
-		"default_icon": "img/highlighter.svg",
+		"default_icon": "img/multisearch.svg",
 		"default_popup": "static/popup.html",
-		"default_title": "Multi-Keywords Highlighter"
+		"default_title": "Multi-Word Highlighter"
 	},
 	"content_scripts": [
 		{
@@ -33,25 +33,27 @@
 		}
 	],
 	"description": "Highlights given keywords on any web page you visit.",
-	"homepage_url": "https://github.com/ivanruvalcaba/multi-keywords-highlighter",
+	"homepage_url": "https://github.com/ncrouzier/multi-keywords-highlighter",
 	"icons": {
-		"16": "img/highlighter.svg",
-		"19": "img/highlighter.svg",
-		"24": "img/highlighter.svg",
-		"32": "img/highlighter.svg",
-		"38": "img/highlighter.svg",
-		"48": "img/highlighter.svg",
-		"64": "img/highlighter.svg",
-		"72": "img/highlighter.svg",
-		"96": "img/highlighter.svg",
-		"128": "img/highlighter.svg",
-		"256": "img/highlighter.svg"
+		"16": "img/multisearch.svg",
+		"19": "img/multisearch.svg",
+		"24": "img/multisearch.svg",
+		"32": "img/multisearch.svg",
+		"38": "img/multisearch.svg",
+		"48": "img/multisearch.svg",
+		"64": "img/multisearch.svg",
+		"72": "img/multisearch.svg",
+		"96": "img/multisearch.svg",
+		"128": "img/multisearch.svg",
+		"256": "img/multisearch.svg"
 	},
 	"manifest_version": 2,
-	"name": "Multi-Keywords Highlighter",
+	"name": "Multi-Word Highlighter",
 	"permissions": [
-		"tabs"
+		"tabs",
+		"contextMenus",
+		"menus"
 	],
-	"short_name": "Multi-Keywords Highlighter",
-	"version": "1.1.0"
+	"short_name": "Multi-Word Highlighter",
+	"version": "1.0.0"
 }

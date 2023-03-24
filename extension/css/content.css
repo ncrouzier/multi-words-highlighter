@@ -1,7 +1,7 @@
 .highlighted {
   border-radius: 3px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-  color: white;
+  /* color: white; */
   font-style: normal;
   font-weight: bold;
   padding: 3px;
@@ -52,4 +52,8 @@
 
 .highlighted.style-9 {
   background: #8bd23e;
+}
+
+.highlighted.style-10 {
+  background: #000;
 }

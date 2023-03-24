@@ -12,11 +12,11 @@
     <div class="grid-container">
       <div class="grid-x grid-margin-x">
         <div class="cell small-10 small-offset-2">
-          <h1>Multi-Keywords Highlighter</h1>
+          <h1>Multi-Word Highlighter</h1>
         </div>
         <div class="cell small-12">
-          <h2>Keywords</h2>
-          <p>Which keywords should be highlighted?</p>
+          <h2>Word List</h2>
+          <p>Which words should be highlighted? (comma seperated word list)</p>
         </div>
         <div class="cell small-12">
           <textarea id="textareaKeywords" rows="2" placeholder="Keyword list (comma-separated)"></textarea>
@@ -32,11 +32,16 @@
         <input id="checkboxSubtleHighlighting" type="checkbox" />
         <label for="checkboxSubtleHighlighting">Make the highlight more subtle.</label>
       </li>
+      <li>
+        <input type="checkbox"  id="checkboxEnableSearch">
+        <label for="checkboxEnableSearch">Enable search</label>
+      </li>
       </ul>
         </div>
         <div class="cell small-12">
-          <button id="buttonSave" class="button small" type="submit">Save</button>
+          <button id="buttonSave" class="button small" type="submit">Save/Refresh</button>
           <button id="buttonCancel" class="button secondary small" type="reset">Cancel</button>
+          
         </div>
       </div>
     </div>
