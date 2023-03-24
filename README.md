@@ -1,32 +1,23 @@
-> This project is a modification of the Multi-Keywords Highlighter extenstion to **GitLab**: [https://gitlab.com/ivanruvalcaba/multi-keywords-highlighter](https://gitlab.com/ivanruvalcaba/multi-keywords-highlighter) _(#GithubExodus)_.
+> This project is a modification of the Multi-Keywords Highlighter extension to **GitLab**: [project](https://github.com/ivanruvalcaba/multi-keywords-highlighter).
 
 # Multi-Keywords Highlighter
 
 Highlights given keywords on any web page you visit.
 
-## Features
-
+## Original Features
 *Multi-Keywords Highlighter* is a browser extension for **Firefox** (*version 52.0 or higher*). It's intended to be assistive for searching for the interesting bits of a web page by defining a keyword list.
 
-![](doc/img/multi-keywords_highlighter-1.jpg)
-
-Once you have defined the keyword list, *Multi-Keywords Highlighter* shows them to you instantly through beautiful and colorful highlighters (ten different colors to be more precise). In addition, is also able to point out to you the number of matches on the current web page.
-
-![](doc/img/multi-keywords_highlighter-2.jpg)
-
-The keyword list is stored locally so you shouldn't worry about your privacy or anonymity.
+## Additonal Features
+These are the additional features for a litte more convience.
+- Random colors (each hightlights are random colors but with visibility)
+- Enable and disable searching in the settings.
 
 ### Feedback
-
-If you have any suggestion, comment or issue, please [create a new thread or participate in an existing one](https://github.com/ivanruvalcaba/multi-keywords-highlighter/issues). Any feedback is highly appreciated.
+If you have any suggestion, comment or issue, please [create a new thread or participate in an existing one](https://github.com/ncrouzier/multi-search-highlighter/issues).
 
 ## Changelog
 
-- *23/09/2017*: Initial release (version 1.0.0).
-
-## ToDo
-
-- [ ] Add multi-language support (Internationalitation *—i18n—*).
+- *03/24/2023*: Initial release (version 1.0.0).
 
 ## License
 
