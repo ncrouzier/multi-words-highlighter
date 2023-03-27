@@ -13,7 +13,7 @@ These are the additional features for a little more convenience.
 - Enable and disable searching in the settings.
 
 ## Screen Cap
-![](doc/img/capture.jpg)
+![](doc/img/capture.png)
 
 ## Feedback
 If you have any suggestion, comment or issue, please [create a new thread or participate in an existing one](https://github.com/ncrouzier/multi-search-highlighter/issues).
