@@ -1,6 +1,6 @@
 > This project is a modification of the Multi-Keywords Highlighter extension to **GitLab**: [project](https://github.com/ivanruvalcaba/multi-keywords-highlighter).
 
-# Multi-Keywords Highlighter
+# Multi-Words Highlighter
 
 Highlights given keywords on any web page you visit.
 
