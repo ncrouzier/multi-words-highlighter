@@ -20,7 +20,7 @@ If you have any suggestion, comment or issue, please [create a new thread or par
 
 ## Changelog
 
-- *04/06/2023*: Added shortcut option (version 1.0.1).
+- *04/06/2023*: Added shortcut option (version 1.0.2).
 - *03/24/2023*: Initial release (version 1.0.0).
 
 ## License
