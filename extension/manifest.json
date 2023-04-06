@@ -34,6 +34,14 @@
 	],
 	"description": "Highlights given keywords on any web page you visit.",
 	"homepage_url": "https://github.com/ncrouzier/multi-keywords-highlighter",
+	"commands": {
+		"search-feature": {
+		  "suggested_key": {
+			"default": "Ctrl+S"
+		  },
+		  "description": "Refresh the search"
+		}
+	},
 	"icons": {
 		"16": "img/multisearch.svg",
 		"19": "img/multisearch.svg",
@@ -55,5 +63,5 @@
 		"menus"
 	],
 	"short_name": "Multi-Word Highlighter",
-	"version": "1.0.0"
+	"version": "1.0.1"
 }

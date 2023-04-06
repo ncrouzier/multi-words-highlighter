@@ -46,9 +46,6 @@ browser.runtime.onMessage.addListener(function(request, sender) {
       }
     }
 
-
-
-
     if (!enableSearch && 'getOptions' === request.message && request.fromSaveButton) {
       browser.tabs.query({
         'active': true,
@@ -59,17 +56,7 @@ browser.runtime.onMessage.addListener(function(request, sender) {
             'message': 'cleanHighlights'
           });        
       });    
-      // browser.tabs.sendMessage(sender.tab.id, {
-      //   'message': 'cleanHighlights'
-      // }); 
-
     }
-
-    // if (!enableSearch){
-    //   console.log("update icon");
-      
-    // }
-   
 
     // This message is recived from 'content.js'.
     if ('showOccurrences' === request.message) {
@@ -119,24 +106,39 @@ browser.menus.create({
 
 browser.menus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "multi-search") {
-    console.log("refreshing...");
-
+    //refreshing 
     //enable search when searching from context menu
     localStorage.setItem('enableSearch', true);
 
-    //get options
-    let showOccurrences = localStorage.getItem('showOccurrences');
-    showOccurrences = 'true' === showOccurrences || null === showOccurrences;
-    let subtleHighlighting = localStorage.getItem('subtleHighlighting');
-    subtleHighlighting = 'true' === subtleHighlighting;
-
-    //activate search
-    browser.tabs.sendMessage(tab.id, {
-      'message': 'returnOptions',
-      'remove': true,
-      'keywords': localStorage.getItem('keywords'),
-      'showOccurrences': showOccurrences,
-      'subtleHighlighting': subtleHighlighting
-    });
+    refreshSearch(tab);
   }
 });
+
+browser.commands.onCommand.addListener((command) => {
+  if (command === "search-feature") {
+    browser.tabs.query({
+      'active': true,
+      'currentWindow': true
+    },
+    function(tabs) {
+      refreshSearch(tabs[0]);
+    }); 
+  }
+});
+
+function refreshSearch(tab) {  
+      //get options
+      let showOccurrences = localStorage.getItem('showOccurrences');
+      showOccurrences = 'true' === showOccurrences || null === showOccurrences;
+      let subtleHighlighting = localStorage.getItem('subtleHighlighting');
+      subtleHighlighting = 'true' === subtleHighlighting;
+  
+      //activate search
+      browser.tabs.sendMessage(tab.id, {
+        'message': 'returnOptions',
+        'remove': true,
+        'keywords': localStorage.getItem('keywords'),
+        'showOccurrences': showOccurrences,
+        'subtleHighlighting': subtleHighlighting
+      });
+}
