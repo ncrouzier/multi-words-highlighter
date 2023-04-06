@@ -37,7 +37,8 @@
 	"commands": {
 		"search-feature": {
 		  "suggested_key": {
-			"default": "Ctrl+S"
+			"default": "Ctrl+S",
+			"mac": "MacCtrl+S"
 		  },
 		  "description": "Refresh the search"
 		}
