@@ -126,19 +126,23 @@ browser.commands.onCommand.addListener((command) => {
   }
 });
 
-function refreshSearch(tab) {  
+function refreshSearch(tab) {   
       //get options
       let showOccurrences = localStorage.getItem('showOccurrences');
       showOccurrences = 'true' === showOccurrences || null === showOccurrences;
       let subtleHighlighting = localStorage.getItem('subtleHighlighting');
       subtleHighlighting = 'true' === subtleHighlighting;
+      enableSearch = localStorage.getItem('enableSearch');
+      enableSearch = 'true' === enableSearch || null === enableSearch;
   
-      //activate search
-      browser.tabs.sendMessage(tab.id, {
-        'message': 'returnOptions',
-        'remove': true,
-        'keywords': localStorage.getItem('keywords'),
-        'showOccurrences': showOccurrences,
-        'subtleHighlighting': subtleHighlighting
-      });
+      if (enableSearch){
+        //refresh search
+        browser.tabs.sendMessage(tab.id, {
+          'message': 'returnOptions',
+          'remove': true,
+          'keywords': localStorage.getItem('keywords'),
+          'showOccurrences': showOccurrences,
+          'subtleHighlighting': subtleHighlighting
+        });
+      }
 }
