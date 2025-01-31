@@ -12,3 +12,88 @@ h2 {
 	list-style: none;
   
 }
+
+
+/* Enable Line Numbering to any HTML Textarea by Charmaine Chui at https://medium.com/weekly-webtips/enable-line-numbering-to-any-html-textarea-35e15ea320e2 */
+#textareaKeywords, #lineCounter {
+  /* font-family: lucida console, courier new, courier, monospace; */
+  margin: 0;
+  padding: 5px 0;
+   height: 200px;
+  border-radius: 0;
+  resize: none;
+  font-size: 16px;
+  line-height: 1.2;
+  outline: none;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#lineCounter:focus-visible,
+#textareaKeywords:focus-visible {
+    outline:none;
+}
+
+#container{
+  display: flex;
+  width: 100%;
+  border: 1px solid #ccc; 
+  height: 200px;
+}
+
+#lineCounter {
+  display: flex;
+  flex-direction: column;
+  
+  border-color: transparent;
+  overflow-y: hidden;
+  /* text-align: right; */
+  box-shadow: none;
+  color: #707070;
+  background-color: #ccc;
+  position: absolute; 
+  width: 2.5rem;
+  /* Determine appearance of line counter */
+   /* background-color:#3E3D32; */
+  /* border-color:#35323e; */
+  /* color:#699275;  */
+}
+
+.line{
+   /* padding: 20px;
+            margin-bottom: 20px; */
+            /* display:inline-block; */
+            /* vertical-align:middle; */
+            text-align: right;
+            /* border: 1px solid #ccc; */
+}
+
+#textareaKeywordsdiv {
+  width:100%;
+  height: 100%;
+}
+
+#textareaKeywords {
+  padding-left: calc(2.5rem + 5px);
+  text-align: left;
+  /* Determine appearance of code editor */
+  /* background-color:#272822;
+  border-color:#272822;
+  color:#ffffff; */
+}
+
+/* .content-editable {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 300px;
+  height: 100px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+.highlight {
+  font-family: "Arial", sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+} */

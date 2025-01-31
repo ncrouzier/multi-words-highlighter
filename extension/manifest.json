@@ -27,7 +27,8 @@
 			],
 			"matches": [
 				"http://*/*",
-				"https://*/*"
+				"https://*/*",
+				"file:///*"
 			],
 			"run_at": "document_end"
 		}
@@ -64,5 +65,5 @@
 		"menus"
 	],
 	"short_name": "Multi-Word Highlighter",
-	"version": "1.0.2"
+	"version": "1.0.3"
 }

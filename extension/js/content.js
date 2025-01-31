@@ -11,9 +11,14 @@
 // http://johannburkard.de/blog/programming/javascript/highlight-javascript-text-higlighting-jquery-plugin.html
 // MIT license.
 
+let foundWords = new Map();
+
+let countW =0;
+
 function keywordsHighlighter(options, remove) {
   let occurrences = 0;
-  function highlight(node, pos, keyword, options, hexColor) {
+
+  function highlight(node, pos, keyword, options, hexColor, tableIndex) {
     let span = document.createElement('span');
 
     span.className = 'highlighted' + ' ' + (options.subtleHighlighting ? 'subtle ' : '');
@@ -35,23 +40,34 @@ function keywordsHighlighter(options, remove) {
     span.appendChild(highlightedClone);
     highlighted.parentNode.replaceChild(span, highlighted);
 
+    foundWords.set(tableIndex, hexColor);
     occurrences++;
   }
 
   function addHighlights(node, keywords, options, colorArray) {
     let skip = 0;
-    // console.log(keywords);
-    if (3 === node.nodeType) {
+    countW++;
+      // console.log(document.body);   
+     
+    if (3 === node.nodeType && node.data !== '' && node.data !== '\r' && node.data !== '\n') {
+      //  console.log(">"+node.data + "<");
+      // console.log(node.data === '\r' || node.data === '\n');
       for (let i = 0; i < keywords.length; i++) {
-        
-        let keyword = keywords[i].toLowerCase();
-        let pos = node.data.toLowerCase().indexOf(keyword);
 
-        if (0 <= pos) {
-          let hexColor = colorArray[i];
-          highlight(node, pos, keyword, options, hexColor);
-          skip = 1;
+        let keyword = keywords[i].toLowerCase();
+        //  console.log(node.data);
+        if (keyword !== undefined && keyword !== ""){ //ignore null/empty
+          let pos = node.data.toLowerCase().indexOf(keyword);
+
+          if (0 <= pos) {
+            let hexColor = colorArray[i];
+            highlight(node, pos, keyword, options, hexColor, i);
+            skip = 1;
+          }
+        }else{
+          // console.log("null empty detected");
         }
+        
       }
     }
     else if (1 === node.nodeType && !/(script|style|textarea)/i.test(node.tagName) && node.childNodes) {
@@ -69,14 +85,27 @@ function keywordsHighlighter(options, remove) {
     removeHighlights(document.body);
   }
 
-  let keywords = options.keywords.split(',');
+  let keywords = options.keywords.split('\n');
   delete options.keywords;
+  // //remove empty keywords
+  // keywords = keywords.filter(item => item);
 
   let colorArray = [];
   for (let i = 0; i < keywords.length; i++) {
     colorArray[i] = getRandomColor();
   }
+  foundWords = new Map();
+  const startTime = performance.now();
+  countW =0;
+  // console.log(document.body);
   addHighlights(document.body, keywords, options, colorArray);
+ // console.log(document.body);
+ // console.log(countW);
+  const endTime = performance.now();
+  const executionTime = endTime - startTime;
+  //console.log(`Execution time: ${executionTime} ms`);
+
+
   browser.runtime.sendMessage({
     'message': 'showOccurrences',
     'occurrences': occurrences
@@ -87,12 +116,27 @@ function removeHighlights(node) {
   let span;
   while ((span = node.querySelector('span.highlighted'))) {
     let parent = span.parentNode;
+   // console.log("span",span);
+    //console.log("span.firstChild",span.firstChild);
     // Move all children of the root element to the parent
     while (span.firstChild) {
         parent.insertBefore(span.firstChild, span);
     }
     // Remove the root element
+    //console.log(parent);
+   // console.log(span);
+    
+    // console.log(span.previousSibling);
+    // console.log(span.nextSibling);
     parent.removeChild(span);
+
+    //console.log("parent after",parent);
+    
+    // parent.removeChild(span.previousSibling);
+    // parent.removeChild(span.nextSibling);
+    
+    // console.log(span);
+
     // span.outerHTML = span.innerHTML;
   }
   occurrences = 0;
@@ -107,7 +151,7 @@ function getRandomColor() {
   return color;
 }
 
-browser.runtime.onMessage.addListener(function(request) { 
+browser.runtime.onMessage.addListener(function(request,sender,response) { 
   if ('returnOptions' === request.message) {
     if ('undefined' != typeof request.keywords && request.keywords) {
       keywordsHighlighter({
@@ -123,6 +167,8 @@ browser.runtime.onMessage.addListener(function(request) {
       'message': 'showOccurrences',
       'occurrences': 0
     });
+  }else if ('getFoundWords' === request.message){
+    response(foundWords);
   }
 });
 

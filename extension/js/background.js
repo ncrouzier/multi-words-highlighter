@@ -17,7 +17,7 @@ browser.runtime.onMessage.addListener(function(request, sender) {
       enableSearch = 'true' === enableSearch || null === enableSearch;
     }
 
-    // This message is recived from 'content.js' and 'popup.js'.
+    // This message is received from 'content.js' and 'popup.js'.
     if (enableSearch && 'getOptions' === request.message) {
       if ('undefined' !== typeof localStorage) {
         browser.tabs.query({
@@ -144,5 +144,10 @@ function refreshSearch(tab) {
           'showOccurrences': showOccurrences,
           'subtleHighlighting': subtleHighlighting
         });
+
+        const message = {
+          event: 'updateline',
+        };
+        browser.runtime.sendMessage(message);
       }
 }

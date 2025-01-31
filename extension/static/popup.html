@@ -16,10 +16,16 @@
         </div>
         <div class="cell small-12">
           <h2>Word List</h2>
-          <p>Which words should be highlighted? (comma seperated word list)</p>
+          <p>Which word(s) should be highlighted? (line seperated word list)</p>
         </div>
         <div class="cell small-12">
-          <textarea id="textareaKeywords" rows="2" placeholder="Keyword list (comma-separated)"></textarea>
+          <div id="container">
+            <div id='lineCounter'><div class="before"></div><div class="line">1.</div></div>
+            <div id="textareaKeywordsdiv"><textarea id="textareaKeywords" rows="2" wrap='off' placeholder="Keyword list (line-separated)"></textarea> </div>
+           
+            <!-- <div class="content-editable" id="textareaKeywords" placeholder="Keyword list (line-separated)" contenteditable="true"></div> -->
+          </div>
+          
         </div>
         <div class="cell small-12">
           <h2>More options</h2>
