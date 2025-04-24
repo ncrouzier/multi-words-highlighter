@@ -1,58 +1,72 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/foundation.css" />
-    <link rel="stylesheet" href="../css/common.css" />
-    <link rel="stylesheet" href="../css/content.css" />
-  </head>
-  <body>
-    <div class="grid-container">
-      <div class="grid-x grid-margin-x">
-        <div class="cell small-10 small-offset-2">
-          <h1>Multi-Words Highlighter</h1>
-        </div>
-        <div class="cell small-12">
-          <h2>Word List</h2>
-          <p>Which word(s) should be highlighted? (line seperated word list)</p>
-        </div>
-        <div class="cell small-12">
-          <div id="container">
-            <div id='lineCounter'><div class="before"></div><div class="line">1.</div></div>
-            <div id="textareaKeywordsdiv"><textarea id="textareaKeywords" rows="2" wrap='off' placeholder="Keyword list (line-separated)"></textarea> </div>
-           
-            <!-- <div class="content-editable" id="textareaKeywords" placeholder="Keyword list (line-separated)" contenteditable="true"></div> -->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../css/foundation.css" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/content.css" />
+</head>
+
+<body>
+  <div class="grid-container">
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-10 small-offset-2">
+        <h1>Multi-Words Highlighter</h1>
+      </div>
+      <div class="cell small-12">
+        <h2>Word List</h2>
+        <p>Which word(s) should be highlighted? (line seperated word list)</p>
+      </div>
+      <div class="cell small-12">
+        <div id="container">
+          <div id='lineCounter'>
+            <div class="before"></div>
+            <div class="line">1.</div>
           </div>
+          <div id="textareaKeywordsdiv"><textarea id="textareaKeywords" rows="2" wrap='off'
+              placeholder="Keyword list (line-separated)"></textarea> </div>
+        </div>
+
+      </div>
+      <div class="cell small-12">
+        <h2>Options</h2>
+        <ul class="checkbox-list">
+          <li>
+            <input id="checkboxShowOccurrences" type="checkbox" />
+            <label for="checkboxShowOccurrences">Show number of found words in toolbar icon.</label>
+          </li>
+          <li>
+            <input id="checkboxSubtleHighlighting" type="checkbox" />
+            <label for="checkboxSubtleHighlighting">Make the highlight more subtle.</label>
+          </li>
+          <li>
+            <input id="checkboxEmbedded" type="checkbox" />
+            <label title="Will search for entries present in another entry of the list. E.g. 'word1' in 'word1 word2'" for="checkboxEmbedded">Search for embedded entries.</label>
+          </li>
+          <li>
+            <input id="checkboxSearchOnTabfocus" type="checkbox" />
+            <label title="Extension will refresh the search on tab focus" for="checkboxSearchOnTabfocus">Refresh search on tab focus.</label>
+          </li>
           
-        </div>
-        <div class="cell small-12">
-          <h2>More options</h2>
-      <ul class="checkbox-list">
-      <li>
-        <input id="checkboxShowOccurrences" type="checkbox" />
-        <label for="checkboxShowOccurrences">Show number of found words in toolbar icon.</label>
-      </li>
-      <li>
-        <input id="checkboxSubtleHighlighting" type="checkbox" />
-        <label for="checkboxSubtleHighlighting">Make the highlight more subtle.</label>
-      </li>
-      <li>
-        <input type="checkbox"  id="checkboxEnableSearch">
-        <label for="checkboxEnableSearch">Enable search</label>
-      </li>
-      </ul>
-        </div>
-        <div class="cell small-12">
-          <button id="buttonSave" class="button small" type="submit">Save/Refresh</button>
-          <button id="buttonCancel" class="button secondary small" type="reset">Cancel</button>
-          
-        </div>
+          <li>
+            <input type="checkbox" id="checkboxEnableSearch">
+            <label for="checkboxEnableSearch">Enable search</label>
+          </li>
+        </ul>
+      </div>
+      <div class="cell small-12">
+        <button id="buttonSave" class="button small" type="submit">Save/Refresh</button>
+        <button id="buttonCancel" class="button secondary small" type="reset">Cancel</button>
+
       </div>
     </div>
-    <!-- WebExtension JavaScript -->
-    <script src="../js/common.js"></script>
-    <script src="../js/popup.js"></script>
-  </body>
+  </div>
+  <!-- WebExtension JavaScript -->
+  <script src="../js/common.js"></script>
+  <script src="../js/popup.js"></script>
+</body>
+
 </html>

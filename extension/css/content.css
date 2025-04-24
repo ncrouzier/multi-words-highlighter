@@ -14,6 +14,15 @@
   padding: 1px;
 }
 
+/* .highlighted.subtle  {
+
+}
+.highlighted.subtle two {
+  background-size: 100% 80%;
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+} */
+
 .highlighted.style-0 {
   background: #4c7bd9;
 }
@@ -57,3 +66,4 @@
 .highlighted.style-10 {
   background: #000;
 }
+

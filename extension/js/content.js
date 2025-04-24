@@ -13,168 +13,134 @@
 
 let foundWords = new Map();
 
-let countW =0;
+let countW = 0;
+
 
 function keywordsHighlighter(options, remove) {
-  let occurrences = 0;
+  let totalOccurrences = 0;
 
-  function highlight(node, pos, keyword, options, hexColor, tableIndex) {
-    let span = document.createElement('span');
+  function highlight(node, position, keyword, options, color, index, depth) {
+    const span = document.createElement('span');
+    span.className = 'highlighted' + (options.subtleHighlighting ? ' subtle' : '');
 
-    span.className = 'highlighted' + ' ' + (options.subtleHighlighting ? 'subtle ' : '');
+    const red = parseInt(color.substring(1, 3), 16);
+    const green = parseInt(color.substring(3, 5), 16);
+    const blue = parseInt(color.substring(5, 7), 16);
+    const luminance = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
+    span.style.color = luminance > 0.49 ? "#000000" : "#ffffff";
+    span.style.backgroundImage = `linear-gradient(to bottom, ${color}, ${color})`;
+    span.style.backgroundSize = `100% ${100 - (depth * 10)}%`;
+    span.style.backgroundRepeat = 'no-repeat';
+    span.style.backgroundPosition = '0 50%';
 
-    // caluclate luminance of hexcolor
-    let red = parseInt(hexColor.substring(1, 3), 16);
-    let green = parseInt(hexColor.substring(3, 5), 16);
-    let blue = parseInt(hexColor.substring(5, 7), 16);
-    let luminance = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
-    span.style.color = luminance > 0.49 ?  "#000000" : "#ffffff"; // legibility fix
-    span.style.backgroundColor = hexColor;
+    const highlightedNode = node.splitText(position);
+    highlightedNode.splitText(keyword.length);
 
-    let highlighted = node.splitText(pos);
-
-    highlighted.splitText(keyword.length);
-
-    let highlightedClone = highlighted.cloneNode(true);
-
+    const highlightedClone = highlightedNode.cloneNode(true);
     span.appendChild(highlightedClone);
-    highlighted.parentNode.replaceChild(span, highlighted);
+    highlightedNode.parentNode.replaceChild(span, highlightedNode);
 
-    foundWords.set(tableIndex, hexColor);
-    occurrences++;
+    foundWords.set(keyword, color);
+    totalOccurrences++;
+
+    return highlightedClone;
   }
 
-  function addHighlights(node, keywords, options, colorArray) {
+  function addHighlights(node, keywords, options, colorMap, depth) {
     let skip = 0;
     countW++;
-      // console.log(document.body);   
-     
-    if (3 === node.nodeType && node.data !== '' && node.data !== '\r' && node.data !== '\n') {
-      //  console.log(">"+node.data + "<");
-      // console.log(node.data === '\r' || node.data === '\n');
+
+    if (depth === 0 && node.parentNode.classList.contains('highlighted')) return skip;
+
+    if (node.nodeType === 3 && node.data.trim() !== '') {
       for (let i = 0; i < keywords.length; i++) {
+        const keyword = keywords[i];
+        if (keyword) {
+          const position = node.data.toLowerCase().indexOf(keyword.toLowerCase());
+          if (position >= 0) {
+            const remainingKeywords = keywords.slice(i + 1);
+            const color = colorMap.get(keyword);
 
-        let keyword = keywords[i].toLowerCase();
-        //  console.log(node.data);
-        if (keyword !== undefined && keyword !== ""){ //ignore null/empty
-          let pos = node.data.toLowerCase().indexOf(keyword);
-
-          if (0 <= pos) {
-            let hexColor = colorArray[i];
-            highlight(node, pos, keyword, options, hexColor, i);
+            const highlightedNode = highlight(node, position, keyword, options, color, i, depth);
+            if (options.searchEmbedded) {
+              const embeddedKeywords = remainingKeywords.filter(kw => keyword.toLowerCase().includes(kw.toLowerCase()));
+              if (embeddedKeywords.length > 0) {
+                addHighlights(highlightedNode, embeddedKeywords, options, colorMap, depth + 1);
+              }
+            }
             skip = 1;
           }
-        }else{
-          // console.log("null empty detected");
         }
-        
       }
-    }
-    else if (1 === node.nodeType && !/(script|style|textarea)/i.test(node.tagName) && node.childNodes) {
+    } else if (node.nodeType === 1 && !/(script|style|textarea)/i.test(node.tagName) && node.childNodes) {
       for (let i = 0; i < node.childNodes.length; i++) {
-        i += addHighlights(node.childNodes[i], keywords, options,colorArray);
+        i += addHighlights(node.childNodes[i], keywords, options, colorMap, depth);
       }
     }
 
     return skip;
   }
 
- 
-
   if (remove) {
     removeHighlights(document.body);
   }
 
-  let keywords = options.keywords.split('\n');
-  delete options.keywords;
-  // //remove empty keywords
-  // keywords = keywords.filter(item => item);
+  const keywords = options.keywords.split('\n').filter(Boolean).sort((a, b) => b.length - a.length);
+  const colorMap = new Map(keywords.map(keyword => [keyword, getRandomColor()]));
 
-  let colorArray = [];
-  for (let i = 0; i < keywords.length; i++) {
-    colorArray[i] = getRandomColor();
-  }
   foundWords = new Map();
+  countW = 0;
   const startTime = performance.now();
-  countW =0;
-  // console.log(document.body);
-  addHighlights(document.body, keywords, options, colorArray);
- // console.log(document.body);
- // console.log(countW);
+  addHighlights(document.body, keywords, options, colorMap, 0);
   const endTime = performance.now();
-  const executionTime = endTime - startTime;
-  //console.log(`Execution time: ${executionTime} ms`);
 
-
-  browser.runtime.sendMessage({
-    'message': 'showOccurrences',
-    'occurrences': occurrences
-  });
+  browser.runtime.sendMessage({ event: 'updateline' });
+  browser.runtime.sendMessage({ message: 'showOccurrences', occurrences: totalOccurrences });
 }
 
-function removeHighlights(node) {
-  let span;
-  while ((span = node.querySelector('span.highlighted'))) {
-    let parent = span.parentNode;
-   // console.log("span",span);
-    //console.log("span.firstChild",span.firstChild);
+function removeHighlights(rootNode) {
+  let highlightedSpan;
+  while ((highlightedSpan = rootNode.querySelector('span.highlighted'))) {
+    const parent = highlightedSpan.parentNode;
     // Move all children of the root element to the parent
-    while (span.firstChild) {
-        parent.insertBefore(span.firstChild, span);
+    while (highlightedSpan.firstChild) {
+      parent.insertBefore(highlightedSpan.firstChild, highlightedSpan);
     }
     // Remove the root element
-    //console.log(parent);
-   // console.log(span);
-    
-    // console.log(span.previousSibling);
-    // console.log(span.nextSibling);
-    parent.removeChild(span);
-
-    //console.log("parent after",parent);
-    
-    // parent.removeChild(span.previousSibling);
-    // parent.removeChild(span.nextSibling);
-    
-    // console.log(span);
-
-    // span.outerHTML = span.innerHTML;
+    parent.removeChild(highlightedSpan);
   }
+  rootNode.normalize();
   occurrences = 0;
 }
 
 function getRandomColor() {
-  var letters = '0123456789ABCDEF'.split('');
-  var color = '#';
-  for (var i = 0; i < 6; i++ ) {
-      color += letters[Math.round(Math.random() * 15)];
+  const letters = '0123456789ABCDEF'.split('');
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * letters.length)];
   }
   return color;
 }
 
-browser.runtime.onMessage.addListener(function(request,sender,response) { 
-  if ('returnOptions' === request.message) {
+browser.runtime.onMessage.addListener(function (request, sender, response) {
+  if ('searchForKeyWords' === request.message) {
     if ('undefined' != typeof request.keywords && request.keywords) {
       keywordsHighlighter({
         'keywords': request.keywords,
-        'subtleHighlighting': request.subtleHighlighting
+        'subtleHighlighting': request.subtleHighlighting,
+        'searchEmbedded': request.searchEmbedded
       },
-      request.remove
+        request.remove
       );
     }
-  }else if ('cleanHighlights' === request.message) {
+  } else if ('cleanHighlights' === request.message) {
     removeHighlights(document.body);
     browser.runtime.sendMessage({
       'message': 'showOccurrences',
       'occurrences': 0
     });
-  }else if ('getFoundWords' === request.message){
+  } else if ('getFoundWords' === request.message) {
     response(foundWords);
   }
 });
 
-
-browser.runtime.sendMessage({
-  'message': 'getOptions',
-  'fromSaveButton': false,
-  'remove': true
-});

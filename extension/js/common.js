@@ -9,22 +9,22 @@
 
 function loadOptions() {  // eslint-disable-line no-unused-vars
   if ('undefined' !== typeof localStorage) {
-    // console.log("loadOptions");
     document.getElementById('textareaKeywords').value = localStorage.getItem('keywords');
 
-    let enableSearch = localStorage.getItem('enableSearch');
-    enableSearch = 'true' === enableSearch && null !== enableSearch;
-    document.getElementById('checkboxEnableSearch').checked = enableSearch;
+    document.getElementById('checkboxEnableSearch').checked =
+      'true' === localStorage.getItem('enableSearch');
 
-    let showOccurrences = localStorage.getItem('showOccurrences');
-    showOccurrences = 'true' === showOccurrences || null === showOccurrences;
-    document.getElementById('checkboxShowOccurrences').checked = showOccurrences;
+    document.getElementById('checkboxShowOccurrences').checked =
+      'true' === localStorage.getItem('showOccurrences') || null === localStorage.getItem('showOccurrences');
 
-    let subtleHighlighting = localStorage.getItem('subtleHighlighting');
-    subtleHighlighting = 'true' === subtleHighlighting && null !== subtleHighlighting;
-    document.getElementById('checkboxSubtleHighlighting').checked = subtleHighlighting;
+    document.getElementById('checkboxSubtleHighlighting').checked =
+      'true' === localStorage.getItem('subtleHighlighting') || null === localStorage.getItem('subtleHighlighting');
     
+    document.getElementById('checkboxEmbedded').checked =
+      'true' === localStorage.getItem('searchEmbedded') || null === localStorage.getItem('searchEmbedded');
 
+    document.getElementById('checkboxSearchOnTabfocus').checked =
+      'true' === localStorage.getItem('searchOnTabfocus') || null === localStorage.getItem('searchOnTabfocus');
 
   }
 }
@@ -36,5 +36,7 @@ function saveOptions() {  // eslint-disable-line no-unused-vars
     localStorage.setItem('enableSearch', document.getElementById('checkboxEnableSearch').checked);
     localStorage.setItem('showOccurrences', document.getElementById('checkboxShowOccurrences').checked);
     localStorage.setItem('subtleHighlighting', document.getElementById('checkboxSubtleHighlighting').checked);
+    localStorage.setItem('searchEmbedded', document.getElementById('checkboxEmbedded').checked);
+    localStorage.setItem('searchOnTabfocus', document.getElementById('checkboxSearchOnTabfocus').checked);
   }
 }
