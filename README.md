@@ -20,10 +20,11 @@ If you have any suggestion, comment or issue, please [create a new thread or par
 
 ## Changelog
 
-- *04/20/2025*: Can now search list entries found in other list entries (version 1.0.4).
-- *08/03/2023*: New list format and highlights in list (version 1.0.3).
-- *04/06/2023*: Added shortcut option (version 1.0.2).
-- *03/24/2023*: Initial release (version 1.0.0).
+- *05/04/2025*: [version 1.0.5] Added search and clear buttons and shortcuts. Fixed list highlighting. Optimized when search is executed.
+- *04/20/2025*: [version 1.0.4] Can now search list entries found in other list entries.
+- *08/03/2023*: [version 1.0.3] New list format and highlights in list.
+- *04/06/2023*: [version 1.0.2] Added shortcut option.
+- *03/24/2023*: [version 1.0.0] Initial release.
 
 ## License
 

@@ -7,6 +7,7 @@
  * Copyright (c) 2017, Iván Ruvalcaba <mario.i.ruvalcaba[at]gmail[dot]com>
  */
 
+
 let tabsStates = new Map();
 
 
@@ -15,49 +16,25 @@ browser.runtime.onMessage.addListener(function (request, sender) {
   let enableSearch = localStorage.getItem('enableSearch');
   enableSearch = 'true' === enableSearch || null === enableSearch;
 
-  if (enableSearch && 'getOptions' === request.message) {
+
+  if (enableSearch && 'refreshActiveTab' === request.message) {
     browser.tabs.query({
         'active': true,
         'currentWindow': true
       },
       function (tabs) {
         if ('undefined' !== typeof tabs[0].id && tabs[0].id) {
-          const keywords = localStorage.getItem('keywords');
-          let showOccurrences = localStorage.getItem('showOccurrences');
-          showOccurrences = 'true' === showOccurrences || null === showOccurrences;
-          let subtleHighlighting = localStorage.getItem('subtleHighlighting');
-          subtleHighlighting = 'true' === subtleHighlighting;
-          let searchEmbedded = localStorage.getItem('searchEmbedded');
-          searchEmbedded = 'true' === searchEmbedded;
 
-          searchForKeyWords(tabs[0].id, {
-            'remove': request.remove,
-            'keywords': keywords,
-            'showOccurrences': showOccurrences,
-            'subtleHighlighting': subtleHighlighting,
-            'searchEmbedded': searchEmbedded
-          });
+          refreshSearch(tabs[0],request.remove);
+
         }
-      });
-  }
-
-  if (!enableSearch && 'getOptions' === request.message && request.fromSaveButton) {
-    browser.tabs.query({
-
-    },
-      function (tabs) {
-        tabs.forEach(tab => {
-          browser.tabs.sendMessage(tab.id, {
-            'message': 'cleanHighlights'
-          });
-        });
-
       });
   }
 
   if ('showOccurrences' === request.message) {
     if (!enableSearch) {
       browser.browserAction.setBadgeText({ text: 'X', 'tabId': sender.tab.id });
+      browser.runtime.sendMessage({ event: 'updateline', color: false });
     } else {
       let showOccurrences = localStorage.getItem('showOccurrences');
       showOccurrences = 'true' === showOccurrences || null === showOccurrences;
@@ -72,9 +49,11 @@ browser.runtime.onMessage.addListener(function (request, sender) {
           'tabId': sender.tab.id
         });
       }
-
     }
+  }
 
+  if ('clearHighlights' === request.message) {
+     tabsStates.delete( sender.tab.id);
   }
 
 });
@@ -84,14 +63,19 @@ browser.tabs.onActivated.addListener(async (activeInfo) => {
   searchOnTabfocus = 'true' === searchOnTabfocus || null === searchOnTabfocus;
   if (searchOnTabfocus) {
     const tab = await browser.tabs.get(activeInfo.tabId);
-    refreshSearch(tab);
+    if (!tabsStates.has(tab.id)) {
+      refreshSearch(tab,true);
+    }else{
+      refreshSearch(tab);
+    }
+    
   }
 });
 
 browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (changeInfo.status === 'complete' && tab.url) {
       // code to execute when the tab is reloaded
-      tabsStates.set(tabId, null);
+      tabsStates.delete(tabId);
       refreshSearch(tab);
 
   }
@@ -122,6 +106,42 @@ browser.commands.onCommand.addListener((command) => {
       function (tabs) {
         refreshSearch(tabs[0],true);
       });
+  }else if (command === "clear-feature") {
+    browser.tabs.query({
+      'active': true,
+      'currentWindow': true
+    },
+      function (tabs) {
+        tabsStates.delete(tabs[0].id);
+        cleanHighlights(tabs[0].id);
+      });
+  }else if (command === "enable-toggle-feature") {
+    const enableSearch = !isLocalStorageEnabled('enableSearch');
+    localStorage.setItem('enableSearch', enableSearch);
+    
+    if (enableSearch){
+      browser.tabs.query({
+        'active': true,
+        'currentWindow': true
+      },
+        function (tabs) {
+          refreshSearch(tabs[0],true);
+        });
+     
+    }else{
+      tabsStates.clear();
+      browser.tabs.query({
+      },
+        function (tabs) {
+          tabs.forEach(tab => {
+            browser.tabs.sendMessage(tab.id, {
+              'message': 'cleanHighlights'
+            });
+          });
+        });
+    }
+    
+   
   }
 });
 
@@ -138,18 +158,12 @@ function refreshSearch(tab, forceRefresh) {
   const keywords = localStorage.getItem('keywords');
 
   searchForKeyWords(tab.id, {
-    remove: true,
     keywords,
     showOccurrences,
     subtleHighlighting,
     searchEmbedded
   }, forceRefresh);
 }
-
-function isLocalStorageEnabled(key) {
-  return localStorage.getItem(key) === 'true' || localStorage.getItem(key) === null;
-}
-
 
 function searchForKeyWords(tabId, options, forceRefresh = false) {
   const currentOptionsHash = hashObjectSimple(options);
@@ -161,18 +175,26 @@ function searchForKeyWords(tabId, options, forceRefresh = false) {
   if (tabsStates.has(tabId) && tabsStates.get(tabId) === currentOptionsHash) {
     return;
   }
-
   tabsStates.set(tabId, currentOptionsHash);
-
   browser.tabs.sendMessage(tabId, {
     message: 'searchForKeyWords',
-    remove: options.remove,
     keywords: options.keywords,
     showOccurrences: options.showOccurrences,
     subtleHighlighting: options.subtleHighlighting,
     searchEmbedded: options.searchEmbedded,
   });
 }
+
+function cleanHighlights(tabId) {
+  browser.tabs.sendMessage(tabId, { message: "cleanHighlights" }, (response) => {   
+  }); 
+
+}
+
+function isLocalStorageEnabled(key) {
+  return localStorage.getItem(key) === 'true' || localStorage.getItem(key) === null;
+}
+
 
 
 function hashObjectSimple(obj) {

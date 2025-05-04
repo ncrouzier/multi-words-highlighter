@@ -40,3 +40,5 @@ function saveOptions() {  // eslint-disable-line no-unused-vars
     localStorage.setItem('searchOnTabfocus', document.getElementById('checkboxSearchOnTabfocus').checked);
   }
 }
+
+

@@ -8,7 +8,7 @@
 	"author": "Nicolas Crouzier",
 	"background": {
 		"scripts": [
-			"js/background.js"
+			"js/background.js", "js/common.js"
 		]
 	},
 	"browser_action": {
@@ -35,13 +35,27 @@
 	],
 	"description": "Highlights given keywords on any web page you visit.",
 	"homepage_url": "https://github.com/ncrouzier/multi-keywords-highlighter",
-	"commands": {
+	"commands": {		
+		"enable-toggle-feature": {
+		  "suggested_key": {
+			"default": "Ctrl+Shift+A",
+			"mac": "MacCtrl+A"
+		  },
+		  "description": "Toggle searching feature on/off"
+		},
 		"search-feature": {
 		  "suggested_key": {
-			"default": "Ctrl+S",
+			"default": "Ctrl+Shift+S",
 			"mac": "MacCtrl+S"
 		  },
 		  "description": "Refresh the search"
+		},
+		"clear-feature": {
+		  "suggested_key": {
+			"default": "Ctrl+Shift+D",
+			"mac": "MacCtrl+D"
+		  },
+		  "description": "Clear highlighted words"
 		}
 	},
 	"icons": {
@@ -65,5 +79,5 @@
 		"menus"
 	],
 	"short_name": "Multi-Word Highlighter",
-	"version": "1.0.4"
+	"version": "1.0.5"
 }

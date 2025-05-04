@@ -94,8 +94,9 @@ function keywordsHighlighter(options, remove) {
   addHighlights(document.body, keywords, options, colorMap, 0);
   const endTime = performance.now();
 
-  browser.runtime.sendMessage({ event: 'updateline' });
+  browser.runtime.sendMessage({ event: 'updateline', color: true });
   browser.runtime.sendMessage({ message: 'showOccurrences', occurrences: totalOccurrences });
+  
 }
 
 function removeHighlights(rootNode) {
@@ -111,6 +112,12 @@ function removeHighlights(rootNode) {
   }
   rootNode.normalize();
   occurrences = 0;
+  browser.runtime.sendMessage({
+    'message': 'showOccurrences',
+    'occurrences': occurrences
+  });
+  foundWords = new Map();
+  browser.runtime.sendMessage({ event: 'updateline', color: false });
 }
 
 function getRandomColor() {
@@ -130,15 +137,17 @@ browser.runtime.onMessage.addListener(function (request, sender, response) {
         'subtleHighlighting': request.subtleHighlighting,
         'searchEmbedded': request.searchEmbedded
       },
-        request.remove
+        true
       );
     }
   } else if ('cleanHighlights' === request.message) {
+    //manual clear
     removeHighlights(document.body);
-    browser.runtime.sendMessage({
-      'message': 'showOccurrences',
-      'occurrences': 0
-    });
+    let searchOnTabfocus = localStorage.getItem('searchOnTabfocus');
+    searchOnTabfocus = 'true' === searchOnTabfocus || null === searchOnTabfocus;
+    if (searchOnTabfocus) {
+      browser.runtime.sendMessage({ message: 'clearHighlights'});
+    }
   } else if ('getFoundWords' === request.message) {
     response(foundWords);
   }

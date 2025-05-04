@@ -97,3 +97,17 @@ h2 {
   font-weight: bold;
   color: red;
 } */
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+.left-buttons {
+  display: flex;
+}
+.left-buttons button {
+  margin-right: 10px;
+}
+.button-right {
+  margin-left: auto;
+}

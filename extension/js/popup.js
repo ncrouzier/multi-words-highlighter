@@ -7,7 +7,31 @@
  * Copyright (c) 2017, Iván Ruvalcaba <mario.i.ruvalcaba[at]gmail[dot]com>
  */
 
+
+
 document.addEventListener('DOMContentLoaded', function () {
+
+  browser.commands.getAll().then((commands) => {
+    const shortcutList = commands;
+
+    //update title with shortcuts
+    const enableSearchRow = document.getElementById("enableSearchRow");
+    const enable_toggle_shortcut = commands.find((command) => command.name === "enable-toggle-feature").shortcut;
+    const enable_toggle_shortcutText = enable_toggle_shortcut ? enable_toggle_shortcut : "no shortcut set";
+    enableSearchRow.title = `Save options and refresh highlights. (${enable_toggle_shortcutText})`;
+
+    const buttonClear = document.getElementById("buttonClear");
+    const clear_shortcut = commands.find((command) => command.name === "clear-feature").shortcut;
+    const clear_shortcutText = clear_shortcut ? clear_shortcut : "no shortcut set";
+    buttonClear.title = `Clear highlights. (${clear_shortcutText})`;
+
+    const buttonSearch = document.getElementById("buttonSearch");
+    const search_shortcut = commands.find((command) => command.name === "search-feature").shortcut;
+    const search_shortcutText = search_shortcut ? search_shortcut : "no shortcut set";
+    buttonSearch.title = `Highlight words. (${search_shortcutText})`;
+
+  });
+
   loadOptions();
 
   const textareaKeywords = document.getElementById('textareaKeywords');
@@ -20,9 +44,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
   textareaKeywords.addEventListener('input', () => {
     saveOptions();
-    updateLineCounter(false);
+    // updateLineCounter(false);
+    browser.tabs.query({
+      'active': true,
+      'currentWindow': true
+    },
+      function (tabs) {
+        cleanHighlights(tabs[0].id);       
+      });
   });
 
+  
   updateLineCounter(true);
 
   document.getElementById('buttonCancel').addEventListener('click', () => {
@@ -33,12 +65,35 @@ document.addEventListener('DOMContentLoaded', function () {
     saveOptions();
     window.close();
     browser.runtime.sendMessage({
-      message: 'getOptions',
-      fromSaveButton: true,
+      message: 'refreshActiveTab',
+      remove: false
+    });
+  });
+
+  document.getElementById('buttonSearch').addEventListener('click', () => {
+    saveOptions();
+    browser.runtime.sendMessage({
+      message: 'refreshActiveTab',
       remove: true
     });
   });
+
+  document.getElementById('buttonClear').addEventListener('click', () => {
+    browser.tabs.query({
+      'active': true,
+      'currentWindow': true
+    },
+      function (tabs) {
+        cleanHighlights(tabs[0].id);       
+      });
+  });
+
 });
+
+function cleanHighlights(tabId) {
+  browser.tabs.sendMessage(tabId, { message: "cleanHighlights" }, (response) => {   
+  });
+}
 
 function updateLineCounter(reset) {
   // Implementation of line counter logic
@@ -48,7 +103,12 @@ browser.runtime.onMessage.addListener(handleMessage);
 
 function handleMessage(message) {
     if (message.event === 'updateline') {
-        line_counter(true);
+      if (message.color === false) {       
+        updateLineCounter(false);
+      }else{
+        updateLineCounter(true);
+      }
+      
     }
 }
 
@@ -85,3 +145,5 @@ function updateLineCounter(color) {
     }
   });
 }
+
+
