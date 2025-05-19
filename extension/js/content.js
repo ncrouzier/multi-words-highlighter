@@ -12,6 +12,7 @@
 // MIT license.
 
 let foundWords = new Map();
+let foundWordsCount = new Map();
 
 let countW = 0;
 
@@ -41,6 +42,7 @@ function keywordsHighlighter(options, remove) {
     highlightedNode.parentNode.replaceChild(span, highlightedNode);
 
     foundWords.set(keyword, color);
+    foundWordsCount.set(keyword, (foundWordsCount.get(keyword) || 0) + 1);
     totalOccurrences++;
 
     return highlightedClone;
@@ -89,6 +91,7 @@ function keywordsHighlighter(options, remove) {
   const colorMap = new Map(keywords.map(keyword => [keyword, getRandomColor()]));
 
   foundWords = new Map();
+  foundWordsCount = new Map();
   countW = 0;
   const startTime = performance.now();
   addHighlights(document.body, keywords, options, colorMap, 0);
@@ -117,6 +120,7 @@ function removeHighlights(rootNode) {
     'occurrences': occurrences
   });
   foundWords = new Map();
+  foundWordsCount = new Map();
   browser.runtime.sendMessage({ event: 'updateline', color: false });
 }
 
@@ -149,7 +153,7 @@ browser.runtime.onMessage.addListener(function (request, sender, response) {
       browser.runtime.sendMessage({ message: 'clearHighlights'});
     }
   } else if ('getFoundWords' === request.message) {
-    response(foundWords);
+    response({ "foundWords": foundWords, "foundWordsCount": foundWordsCount});
   }
 });
 

@@ -1,6 +1,6 @@
 body {
   margin-top: 5px;
-  max-width: 460px;
+  width: 460px;
 }
 
 h2 {
@@ -15,11 +15,10 @@ h2 {
 
 
 /* Enable Line Numbering to any HTML Textarea by Charmaine Chui at https://medium.com/weekly-webtips/enable-line-numbering-to-any-html-textarea-35e15ea320e2 */
-#textareaKeywords, #lineCounter {
+#textareaKeywords, #lineCounter, #wordCounter {
   /* font-family: lucida console, courier new, courier, monospace; */
-  margin: 0;
-  padding: 5px 0;
-   height: 200px;
+  padding: 5px 0px;
+  height: 200px;
   border-radius: 0;
   resize: none;
   font-size: 16px;
@@ -30,22 +29,31 @@ h2 {
   box-sizing: border-box;
 }
 
+#wordCounter {
+
+}
+
 #lineCounter:focus-visible,
+#textareaKeywords:focus-visible {
+    outline:none;
+}
+
+#wordCounter:focus-visible,
 #textareaKeywords:focus-visible {
     outline:none;
 }
 
 #container{
   display: flex;
+  /* border: 1px solid #ccc;  */
   width: 100%;
-  border: 1px solid #ccc; 
   height: 200px;
 }
 
-#lineCounter {
+#lineCounter{
+  
   display: flex;
   flex-direction: column;
-  
   border-color: transparent;
   overflow-y: hidden;
   /* text-align: right; */
@@ -54,10 +62,22 @@ h2 {
   background-color: #ccc;
   position: absolute; 
   width: 2.5rem;
-  /* Determine appearance of line counter */
-   /* background-color:#3E3D32; */
-  /* border-color:#35323e; */
-  /* color:#699275;  */
+}
+
+#wordCounter{
+  /* padding: 0px 0px 5px; */
+  right: 0px;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  border-color: transparent;
+  overflow-y: hidden;
+  text-align: left; 
+  box-shadow: none;
+  color: #707070;
+  background-color: #ccc;
+  position: absolute; 
+  width: 2.5rem;
 }
 
 .line{
@@ -69,18 +89,24 @@ h2 {
             /* border: 1px solid #ccc; */
 }
 
+.countLine{
+  cursor: pointer;
+  text-align: left;
+}
+
 #textareaKeywordsdiv {
-  width:100%;
+  padding-left: 2.5rem;
+  width:calc(460px - 2.5rem);
   height: 100%;
 }
 
 #textareaKeywords {
-  padding-left: calc(2.5rem + 5px);
+  /* padding-left: calc(2.5rem + 6px); */
+  padding-left: 2px;
+
+  /* width: 100px; */
   text-align: left;
-  /* Determine appearance of code editor */
-  /* background-color:#272822;
-  border-color:#272822;
-  color:#ffffff; */
+ 
 }
 
 /* .content-editable {

@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const textareaKeywords = document.getElementById('textareaKeywords');
   const lineCounter = document.getElementById('lineCounter');
+  const wordCounter = document.getElementById('wordCounter');
 
   textareaKeywords.addEventListener('scroll', () => {
     lineCounter.scrollTop = textareaKeywords.scrollTop;
@@ -118,22 +119,28 @@ function updateLineCounter(color) {
     if (tabs && tabs[0] && tabs[0].id) {
       browser.tabs.sendMessage(tabs[0].id, { message: 'getFoundWords' })
         .then((response) => {
+          console.log(response);
           if (!response) {
             throw new Error('No response received for found words.');
           }
+          const foundWords = response.foundWords;
+          const foundWordsCount = response.foundWordsCount;
           const lineCount = textareaKeywords.value.split('\n').length;
           const keywords = textareaKeywords.value.split('\n');
           const outarr = new Array();
+          const wordarr = new Array();
 
           if (lineCountCache !== lineCount) {
             for (let x = 0; x < lineCount; x++) {
-              if (color && response.get(keywords[x])) {
-                outarr[x] = `</br><div style="background-color:${response.get(keywords[x])}" class="line" id="line${x}">${x + 1}.</div>`;
+              if (color && foundWords.get(keywords[x])) {
+                outarr[x] = `</br><div style="background-color:${foundWords.get(keywords[x])}" class="line" id="line${x}">${x + 1}.</div>`;
               } else {
                 outarr[x] = `</br><div class="line" id="line${x}">${x + 1}.</div>`;
               }
+              wordarr[x] = `<div class="countLine" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${foundWordsCount.get(keywords[x])  || 0}" >${foundWordsCount.get(keywords[x])  || 0}</div>`;
             }
-            lineCounter.innerHTML = outarr.join('\n');
+              lineCounter.innerHTML = outarr.join('\n');
+            wordCounter.innerHTML = wordarr.join('\n');
           }
           lineCountCache = lineCount;
         })

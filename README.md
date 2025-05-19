@@ -9,17 +9,19 @@ Highlights given keywords on any web page you visit.
 
 ## Additonal Features
 These are the additional features for a little more convenience.
-- Random colors (each lightweights are random colors but with visibility)
+- Random colors (each lightweights are random colors but with visibility taken into account).
 - Enable and disable searching in the settings.
+- Embbeded word search.
 
 ## Screen Cap
-![](doc/img/capture.png)
+![](doc/img/capturev105.png)
 
 ## Feedback
 If you have any suggestion, comment or issue, please [create a new thread or participate in an existing one](https://github.com/ncrouzier/multi-search-highlighter/issues).
 
 ## Changelog
 
+- *05/19/2025*: [version 1.0.6] Added match count next to each word entry.
 - *05/04/2025*: [version 1.0.5] Added search and clear buttons and shortcuts. Fixed list highlighting. Optimized when search is executed.
 - *04/20/2025*: [version 1.0.4] Can now search list entries found in other list entries.
 - *08/03/2023*: [version 1.0.3] New list format and highlights in list.
