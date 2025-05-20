@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function () {
   textareaKeywords.addEventListener('scroll', () => {
     lineCounter.scrollTop = textareaKeywords.scrollTop;
     lineCounter.scrollLeft = textareaKeywords.scrollLeft;
+    wordCounter.scrollTop = textareaKeywords.scrollTop;
+    wordCounter.scrollLeft = textareaKeywords.scrollLeft;
   });
 
   textareaKeywords.addEventListener('input', () => {
@@ -137,7 +139,7 @@ function updateLineCounter(color) {
               } else {
                 outarr[x] = `</br><div class="line" id="line${x}">${x + 1}.</div>`;
               }
-              wordarr[x] = `<div class="countLine" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${foundWordsCount.get(keywords[x])  || 0}" >${foundWordsCount.get(keywords[x])  || 0}</div>`;
+              wordarr[x] = `</br><div class="countLine"  style="white-space: nowrap;" title="${foundWordsCount.get(keywords[x])  || 0}" >${foundWordsCount.get(keywords[x])  || 0}</div>`;
             }
               lineCounter.innerHTML = outarr.join('\n');
             wordCounter.innerHTML = wordarr.join('\n');
