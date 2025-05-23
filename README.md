@@ -14,7 +14,8 @@ These are the additional features for a little more convenience.
 - Embbeded word search.
 
 ## Screen Cap
-![](doc/img/capturev105.png)
+![](doc/img/capturev110_1.png)
+![](doc/img/capturev110_2.png)
 
 ## Feedback
 If you have any suggestion, comment or issue, please [create a new thread or participate in an existing one](https://github.com/ncrouzier/multi-search-highlighter/issues).
