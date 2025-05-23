@@ -21,6 +21,7 @@ If you have any suggestion, comment or issue, please [create a new thread or par
 
 ## Changelog
 
+- *05/23/2025*: [version 1.1.0] Major popup redesign. Added option to sort list by match count. Added buttons to clear list and remove empty lines. 
 - *05/20/2025*: [version 1.0.7] Display fix of word count when more than 10 are speficied.
 - *05/19/2025*: [version 1.0.6] Added match count next to each word entry.
 - *05/04/2025*: [version 1.0.5] Added search and clear buttons and shortcuts. Fixed list highlighting. Optimized when search is executed.

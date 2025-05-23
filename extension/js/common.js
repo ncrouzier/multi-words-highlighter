@@ -12,7 +12,7 @@ function loadOptions() {  // eslint-disable-line no-unused-vars
     document.getElementById('textareaKeywords').value = localStorage.getItem('keywords');
 
     document.getElementById('checkboxEnableSearch').checked =
-      'true' === localStorage.getItem('enableSearch');
+      'true' === localStorage.getItem('enableSearch') || null === localStorage.getItem('enableSearch');
 
     document.getElementById('checkboxShowOccurrences').checked =
       'true' === localStorage.getItem('showOccurrences') || null === localStorage.getItem('showOccurrences');
@@ -26,6 +26,8 @@ function loadOptions() {  // eslint-disable-line no-unused-vars
     document.getElementById('checkboxSearchOnTabfocus').checked =
       'true' === localStorage.getItem('searchOnTabfocus') || null === localStorage.getItem('searchOnTabfocus');
 
+    document.getElementById('checkboxSortByOccurrences').checked =
+      'true' === localStorage.getItem('sortByOccurrences') || null === localStorage.getItem('sortByOccurrences');
   }
 }
 
@@ -38,6 +40,7 @@ function saveOptions() {  // eslint-disable-line no-unused-vars
     localStorage.setItem('subtleHighlighting', document.getElementById('checkboxSubtleHighlighting').checked);
     localStorage.setItem('searchEmbedded', document.getElementById('checkboxEmbedded').checked);
     localStorage.setItem('searchOnTabfocus', document.getElementById('checkboxSearchOnTabfocus').checked);
+    localStorage.setItem('sortByOccurrences', document.getElementById('checkboxSortByOccurrences').checked);
   }
 }
 

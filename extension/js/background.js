@@ -119,6 +119,12 @@ browser.commands.onCommand.addListener((command) => {
     const enableSearch = !isLocalStorageEnabled('enableSearch');
     localStorage.setItem('enableSearch', enableSearch);
     
+    // Notify popup if it's open
+    browser.runtime.sendMessage({
+      event: 'updateEnableButton',
+      enabled: enableSearch
+    });
+    
     if (enableSearch){
       browser.tabs.query({
         'active': true,

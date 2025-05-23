@@ -1,24 +1,113 @@
+/* Base Styles */
 body {
-  margin-top: 5px;
+  margin: 0;
+  padding: 0;
   width: 460px;
+  font-size: 14px;
+}
+
+.grid-container {
+  padding: 1rem;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 1.4rem;
+  margin: 0.5rem 0;
+  color: #333;
 }
 
 h2 {
   text-decoration: underline;
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+/* Main Tabs Layout */
+.main-tabs {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.main-tabs .tab-buttons {
+  display: flex;
+  border-bottom: 1px solid #dee2e6;
+  background: #f8f9fa;
+  border-radius: 4px 4px 0 0;
+}
+
+.main-tabs .tab-button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #666;
+  transition: all 0.2s ease;
+  position: relative;
+  font-weight: 500;
+}
+
+.main-tabs .tab-button:hover {
+  color: #333;
+  background: rgba(0,0,0,0.03);
+}
+
+.main-tabs .tab-button.active {
+  color: #2196F3;
+}
+
+.main-tabs .tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #2196F3;
+}
+
+.main-tabs .tab-content {
+  padding: 16px;
+}
+
+/* Tab Pane Visibility */
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* Options Layout */
+.option-item {
+  margin-bottom: 0.75rem;
 }
 
 .checkbox-list {
-	margin-left: 0px;
-	list-style: none;
-  
+  margin-left: 0px;
+  list-style: none;
 }
 
-
-/* Enable Line Numbering to any HTML Textarea by Charmaine Chui at https://medium.com/weekly-webtips/enable-line-numbering-to-any-html-textarea-35e15ea320e2 */
-#textareaKeywords, #lineCounter, #wordCounter {
-  /* font-family: lucida console, courier new, courier, monospace; */
-  padding: 5px 0px;
+/* Textarea and Line Counter */
+#container {
+  display: flex;
+  width: 100%;
   height: 200px;
+  margin: 1rem 0;
+}
+
+#textareaKeywords, #lineCounter, #wordCounter {
+  padding: 5px 0px;
+  height: 220px;
   border-radius: 0;
   resize: none;
   font-size: 16px;
@@ -29,45 +118,19 @@ h2 {
   box-sizing: border-box;
 }
 
-#wordCounter {
-
-}
-
-#lineCounter:focus-visible,
-#textareaKeywords:focus-visible {
-    outline:none;
-}
-
-#wordCounter:focus-visible,
-#textareaKeywords:focus-visible {
-    outline:none;
-}
-
-#container{
-  display: flex;
-  /* border: 1px solid #ccc;  */
-  width: 100%;
-  height: 200px;
-}
-
-#lineCounter{
-  
+#lineCounter {
   display: flex;
   flex-direction: column;
   border-color: transparent;
   overflow-y: hidden;
-  /* text-align: right; */
-  box-shadow: none;
   color: #707070;
   background-color: #ccc;
   position: absolute; 
   width: 2.5rem;
 }
 
-#wordCounter{
-  /* padding: 0px 0px 5px; */
+#wordCounter {
   right: 0px;
-  /* font-size: 16px; */
   display: flex;
   flex-direction: column;
   border-color: transparent;
@@ -76,65 +139,117 @@ h2 {
   box-shadow: none;
   color: #707070;
   background-color: #ccc;
-  /* position: absolute;  */
   width: 2.5rem;
   max-width: 2.5rem;
 }
 
-.line{
-   /* padding: 20px;
-            margin-bottom: 20px; */
-            /* display:inline-block; */
-            /* vertical-align:middle; */
-            text-align: right;
-            /* border: 1px solid #ccc; */
-}
-
-.countLine{
-  cursor: pointer;
-  text-align: left;
+#lineCounter:focus-visible,
+#textareaKeywords:focus-visible,
+#wordCounter:focus-visible {
+  outline: none;
 }
 
 #textareaKeywordsdiv {
   padding-left: 2.5rem;
-  width:calc(460px - 2.5rem);
+  width: calc(460px - 2.5rem);
   height: 100%;
 }
 
 #textareaKeywords {
-  /* padding-left: calc(2.5rem + 6px); */
   padding-left: 2px;
-
-  /* width: 100px; */
   text-align: left;
- 
 }
 
-/* .content-editable {
-  border: 1px solid #ccc;
-  padding: 10px;
-  width: 300px;
-  height: 100px;
-  overflow: auto;
-  white-space: pre-wrap;
+.line {
+  text-align: right;
 }
-.highlight {
-  font-family: "Arial", sans-serif;
-  font-size: 18px;
-  font-weight: bold;
-  color: red;
-} */
 
+.countLine {
+  cursor: pointer;
+  text-align: left;
+}
+
+/* Button Styles */
 .button-container {
   display: flex;
   justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
 }
+
 .left-buttons {
   display: flex;
 }
+
 .left-buttons button {
   margin-right: 10px;
 }
+
+.button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.button:not(.disabled):hover {
+  opacity: 0.9;
+}
+
 .button-right {
   margin-left: auto;
+}
+
+/* Save Notification */
+.save-notification {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+.save-notification.show {
+  opacity: 1;
+}
+
+/* Enable Toggle Styles */
+.enable-toggle {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 1rem;
+  position: relative;
+}
+
+.enable-toggle input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+.status-label {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.enable-toggle input[type="checkbox"]:checked + .status-label {
+  color: #4CAF50;
+}
+
+.enable-toggle input[type="checkbox"]:not(:checked) + .status-label {
+  color: #dc3545;
 }

@@ -97,7 +97,11 @@ function keywordsHighlighter(options, remove) {
   addHighlights(document.body, keywords, options, colorMap, 0);
   const endTime = performance.now();
 
-  browser.runtime.sendMessage({ event: 'updateline', color: true });
+  browser.runtime.sendMessage({ 
+    event: 'updateline', 
+    color: true,
+    foundWordsCount: foundWordsCount 
+  });
   browser.runtime.sendMessage({ message: 'showOccurrences', occurrences: totalOccurrences });
   
 }

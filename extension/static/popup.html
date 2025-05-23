@@ -14,61 +14,85 @@
   <div class="grid-container">
     <div class="grid-x grid-margin-x">
       <div class="cell small-10 small-offset-2">
-        <h1>Multi-Words Highlighter</h1>
-      </div>
-      <div class="cell small-12">
-        <h2>Word List</h2>
-        <p>Which word(s) should be highlighted? (line seperated word list)</p>
-      </div>
-      <div class="">
-        <div id="container">
-          <div id='lineCounter'>
-            <div class="before"></div>
-            <div class="line">1.</div>
-          </div>
-          <div id="textareaKeywordsdiv">
-            <textarea id="textareaKeywords" rows="2" wrap='off' placeholder="Keyword list (line-separated)"></textarea>
-          </div>
-          <div id='wordCounter'>
-            <div class="before"></div>
-            <div class="countLine">0</div>
-          </div>
-        </div>
-
-      </div>
-      <div class="cell small-12">
-        <h2>Options</h2>
-        <ul class="checkbox-list">
-          <li>
-            <input id="checkboxShowOccurrences" type="checkbox" />
-            <label for="checkboxShowOccurrences">Show number of found words in toolbar icon.</label>
-          </li>
-          <li>
-            <input id="checkboxSubtleHighlighting" type="checkbox" />
-            <label for="checkboxSubtleHighlighting">Make the highlight more subtle.</label>
-          </li>
-          <li>
-            <input id="checkboxEmbedded" type="checkbox" />
-            <label title="Will search for entries present in another entry of the list. E.g. 'word1' in 'word1 word2'" for="checkboxEmbedded">Search for embedded entries.</label>
-          </li>
-          <li>
-            <input id="checkboxSearchOnTabfocus" type="checkbox" />
-            <label title="Extension will refresh the search on tab focus" for="checkboxSearchOnTabfocus">Refresh search on tab focus.</label>
-          </li>
-          
-          <li id="enableSearchRow">
+        <h1>Multi-Words Highlighter   
+          <div class="enable-toggle">
             <input type="checkbox" id="checkboxEnableSearch">
-            <label for="checkboxEnableSearch">Enable search</label>
-          </li>
-        </ul>
+            <span class="status-label">Disabled</span>
+          </div>
+        </h1> 
       </div>
-      <div class="cell small-12 button-container">
-        <div class="left-buttons">
-        <button id="buttonSave" class="button small" title="Save options and close window." type="button">Save & Close</button>
-        <button id="buttonSearch" class="button  small" type="button">Search</button>
-        <button id="buttonClear" class="button  small" type="button">Clear</button>
+
+      <div class="cell small-12">
+        <div class="main-tabs">
+          <div class="tab-buttons">
+            <button class="tab-button active" data-tab="wordlist">Word List</button>
+            <button class="tab-button" data-tab="settings">Settings</button>
+          </div>
+          
+          <div class="tab-content">
+            <div class="tab-pane active" id="wordlist-tab">
+              <p>Which word(s) should be highlighted? (line separated word list)</p>
+              <div id="container">
+                <div id='lineCounter'>
+                  <div class="before"></div>
+                  <div class="line">1.</div>
+                </div>
+                <div id="textareaKeywordsdiv">
+                  <textarea id="textareaKeywords" rows="2" wrap='off' placeholder="Keyword list (line-separated)"></textarea>
+                </div>
+                <div id='wordCounter'>
+                  <div class="before"></div>
+                  <div class="countLine">0</div>
+                </div>
+              </div>
+              <div class="button-container">
+                <div class="left-buttons">
+                  <button id="buttonSearch" class="button small" type="button">Search</button>
+                  <button id="buttonClear" class="button small" type="button">Clear highlights</button>
+                </div>
+                <div class="right-buttons">
+                  <button id="buttonRemoveEmpty" class="button small secondary" type="button" title="Remove empty lines from the list">
+                    <svg role="img" xmlns="http://www.w3.org/2000/svg" style="width:1em; height:1em; vertical-align: -0.125em; fill: currentColor;" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z"/></svg>
+                  </button>
+                  <button id="buttonRemoveAll" class="button small secondary" type="button" title="Remove all lines">
+                    <svg  role="img" xmlns="http://www.w3.org/2000/svg" style="width:1em; height:1em; vertical-align: -0.125em; fill: currentColor;"  viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane" id="settings-tab">
+              <div >
+               
+                 
+                    <div class="option-item">
+                      <input id="checkboxShowOccurrences" type="checkbox" />
+                      <label for="checkboxShowOccurrences" title="Show number of found words in toolbar icon">Show count in toolbar</label>
+                    </div>
+                    <div class="option-item">
+                      <input id="checkboxSubtleHighlighting" type="checkbox" />
+                      <label for="checkboxSubtleHighlighting" title="Make the highlight more subtle">Subtle highlighting</label>
+                    </div>
+             
+                    <div class="option-item">
+                      <input id="checkboxEmbedded" type="checkbox" />
+                      <label for="checkboxEmbedded" title="Will search for entries present in another entry of the list. E.g. 'word1' in 'word1 word2'">Search embedded words</label>
+                    </div>
+                    <div class="option-item">
+                      <input id="checkboxSearchOnTabfocus" type="checkbox" />
+                      <label for="checkboxSearchOnTabfocus" title="Extension will refresh the search on tab focus">Refresh on tab focus</label>
+                    </div>
+                    <div class="option-item">
+                      <input id="checkboxSortByOccurrences" type="checkbox" />
+                      <label for="checkboxSortByOccurrences" title="Sort keywords by number of occurrences (most to least)">Sort by occurrence count</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="saveNotification" class="save-notification"></div>
         </div>
-        <button id="buttonCancel" class="button button-right secondary small" title="Close without saving." type="button">Cancel</button>
       </div>
     </div>
   </div>
