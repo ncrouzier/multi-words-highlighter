@@ -41,6 +41,7 @@ function initializeUI() {
   
   // Update initial line counter
   updateLineCounter(true);
+
 }
 
 /* ===== Keyboard Shortcuts Setup ===== */
@@ -272,10 +273,19 @@ function updateLineCounter(color) {
           if (!response) {
             throw new Error('No response received for found words.');
           }
+          if (localStorage.getItem('sortByOccurrences') === 'true' &&  response.foundWordsCount) {
+            sortKeywordsByOccurrences( response.foundWordsCount);
+          }
+
           const foundWords = response.foundWords;
           const foundWordsCount = response.foundWordsCount;
+         
+
           const textarea = document.getElementById('textareaKeywords');
           let keywords = textarea.value.split('\n');
+
+         
+
           const lineCount = keywords.length;
 
           const outarr = new Array();
